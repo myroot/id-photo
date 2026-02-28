@@ -74,17 +74,48 @@ function handleImageUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (!file.type.match('image.*')) {
+    // Check if the file is HEIC/HEIF
+    const isHeic = file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif');
+
+    if (!file.type.match('image.*') && !isHeic) {
         alert("이미지 파일만 업로드 가능합니다.");
         return;
     }
 
+    if (isHeic) {
+        // Show temporary loading style on button label to indicate work
+        const uploadBtn = document.querySelector('label[for="image-upload"]');
+        const uploadBtnOriginHTML = uploadBtn.innerHTML;
+        uploadBtn.innerHTML = '<i class="material-icons">hourglass_empty</i> 변환 중...';
+        uploadBtn.style.pointerEvents = 'none';
+
+        heic2any({
+            blob: file,
+            toType: "image/jpeg",
+            quality: 0.95
+        }).then(function (resultBlob) {
+            // resultBlob can be an array if analyzing animation, usually it's single
+            const finalBlob = Array.isArray(resultBlob) ? resultBlob[0] : resultBlob;
+            readFile(finalBlob);
+        }).catch(function (e) {
+            alert("HEIC 변환 중 오류가 발생했습니다: " + e.message);
+            console.error(e);
+        }).finally(function () {
+            uploadBtn.innerHTML = uploadBtnOriginHTML;
+            uploadBtn.style.pointerEvents = 'auto';
+        });
+    } else {
+        readFile(file);
+    }
+}
+
+function readFile(blobOrFile) {
     const reader = new FileReader();
     reader.onload = (event) => {
         currentImageSrc = event.target.result;
         startEditing();
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(blobOrFile);
 }
 
 function startEditing() {
