@@ -104,10 +104,16 @@ function handleImageUpload(e) {
                 // resultBlob can be an array if analyzing animation, usually it's single
                 const finalBlob = Array.isArray(resultBlob) ? resultBlob[0] : resultBlob;
                 readFile(finalBlob);
-            }).catch(function (e) {
-                alert("HEIC 변환 중 오류가 발생했습니다: " + e.message);
-                console.error(e);
-            }).finally(function () {
+            })
+            .catch(function (e) {
+                console.error("HEIC Conversion Error:", e);
+                if (e.message && e.message.includes("format not supported")) {
+                    alert("업로드하신 HEIC 파일이 최신 형식(예: 최신 아이폰)이라 브라우저 내장 변환기에서 아직 지원하지 않습니다.\n\n해결 방법: 아이폰 '설정 > 카메라 > 포맷'에서 '높은 호환성(JPEG)'으로 변경하거나 다른 변환기를 사용해 JPEG로 업로드해주세요.");
+                } else {
+                    alert("HEIC 변환 중 오류가 발생했습니다: " + e.message);
+                }
+            })
+            .finally(function () {
                 uploadBtn.innerHTML = uploadBtnOriginHTML;
                 uploadBtn.style.pointerEvents = 'auto';
             });
