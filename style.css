@@ -1,0 +1,387 @@
+/* style.css - Material Design Implementation without framework */
+
+/* Variables */
+:root {
+    --primary-color: #6200ea;
+    /* Deep Purple */
+    --primary-variant: #3700b3;
+    --secondary-color: #03dac6;
+    --secondary-variant: #018786;
+    --background: #f5f5f5;
+    --surface: #ffffff;
+    --error: #b00020;
+
+    --on-primary: #ffffff;
+    --on-secondary: #000000;
+    --on-background: #000000;
+    --on-surface: #000000;
+    --on-error: #ffffff;
+
+    --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --elevation-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    --elevation-3: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+    --border-radius: 8px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --spacing-p: 16px;
+    --spacing-l: 24px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background);
+    color: var(--on-background);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* App Bar */
+.app-bar {
+    background-color: var(--primary-color);
+    color: var(--on-primary);
+    box-shadow: var(--elevation-2);
+    padding: var(--spacing-p);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.app-bar-inner {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.app-bar-icon {
+    margin-right: 12px;
+    font-size: 28px;
+}
+
+.app-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: var(--spacing-l) auto;
+    padding: 0 var(--spacing-p);
+}
+
+/* Cards */
+.card {
+    background-color: var(--surface);
+    border-radius: var(--border-radius);
+    box-shadow: var(--elevation-1);
+    padding: var(--spacing-l);
+    margin-bottom: var(--spacing-l);
+    transition: var(--transition);
+}
+
+.card:hover {
+    box-shadow: var(--elevation-2);
+}
+
+.card-header {
+    margin-bottom: var(--spacing-p);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    padding-bottom: 8px;
+}
+
+.text-center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    height: 36px;
+    min-width: 64px;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.0892857143em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+}
+
+.btn i {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--on-primary);
+    box-shadow: var(--elevation-1);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-variant);
+    box-shadow: var(--elevation-2);
+}
+
+.btn-primary:disabled {
+    background-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.38);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--on-secondary);
+    box-shadow: var(--elevation-1);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-variant);
+    box-shadow: var(--elevation-2);
+}
+
+.btn-text {
+    background-color: transparent;
+    color: var(--primary-color);
+    padding: 0 8px;
+}
+
+.btn-text:hover {
+    background-color: rgba(98, 0, 234, 0.04);
+}
+
+.btn-large {
+    height: 48px;
+    font-size: 1rem;
+    padding: 0 24px;
+}
+
+.block-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-p);
+    margin-top: var(--spacing-l);
+}
+
+/* Upload styling */
+.upload-icon {
+    font-size: 64px;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin-top: 24px;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Hidden elements */
+.hidden {
+    display: none !important;
+}
+
+/* Layout for Main App View */
+.edit-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-l);
+}
+
+@media (max-width: 900px) {
+    .edit-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Workspace */
+.cropper-container {
+    width: 100%;
+    max-height: 50vh;
+    background-color: #333;
+    margin-bottom: var(--spacing-p);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#cropper-image {
+    max-width: 100%;
+}
+
+/* Controls */
+.controls-section {
+    margin-top: var(--spacing-l);
+}
+
+.controls-title {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 8px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.slider-container input[type=range] {
+    flex-grow: 1;
+    accent-color: var(--primary-color);
+}
+
+.slider-container span {
+    min-width: 40px;
+    text-align: right;
+    font-family: monospace;
+}
+
+/* Settings */
+.input-group {
+    margin-bottom: var(--spacing-p);
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 4px;
+}
+
+.input-select {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+    border-radius: 4px 4px 0 0;
+    padding: 8px 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: rgba(0, 0, 0, 0.87);
+    outline: none;
+    transition: border-color 0.2s;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.input-select:focus {
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.action-buttons {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.12);
+    margin: var(--spacing-l) 0;
+}
+
+/* Canvas Preview Container */
+.preview-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#output-canvas {
+    max-width: 100%;
+    height: auto;
+    background-color: white;
+    box-shadow: var(--elevation-2);
+}
+
+/* Utilities */
+.fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ripple effect (css only approximation) */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform .5s, opacity 1s;
+}
+
+.ripple:active:after {
+    transform: scale(0, 0);
+    opacity: .3;
+    transition: 0s;
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Photo Editor</title>
+
+    <!-- Fonts and Icons for Material Design -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Cropper.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- App Bar -->
+    <header class="app-bar">
+        <div class="app-bar-inner">
+            <i class="material-icons app-bar-icon">camera_alt</i>
+            <h1 class="app-title">증명사진 만들기</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Initial Upload View -->
+        <div id="upload-view" class="card fade-in">
+            <div class="card-content text-center">
+                <i class="material-icons upload-icon">cloud_upload</i>
+                <h2>사진 업로드</h2>
+                <p>편집할 사진을 선택해주세요.</p>
+                <div class="upload-btn-wrapper">
+                    <input type="file" id="image-upload" accept="image/*" />
+                    <button class="btn btn-primary ripple">
+                        <i class="material-icons">folder_open</i>
+                        파일 선택
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit & Preview View (Hidden initially) -->
+        <div id="edit-view" class="edit-layout hidden">
+            <!-- Workspace: Cropper -->
+            <div class="card workspace-card fade-in">
+                <div class="card-header">
+                    <h2 class="card-title">1. 사진 편집 및 크롭</h2>
+                </div>
+                <div class="card-content">
+                    <div class="cropper-container">
+                        <img id="cropper-image" src="" alt="Image for cropping" />
+                    </div>
+
+                    <div class="controls-section">
+                        <h3 class="controls-title">미세 회전</h3>
+                        <div class="slider-container">
+                            <i class="material-icons">rotate_left</i>
+                            <input type="range" id="rotation-slider" min="-45" max="45" value="0" step="0.5">
+                            <i class="material-icons">rotate_right</i>
+                            <span id="rotation-value">0°</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings & Output Preview -->
+            <div class="card settings-card fade-in">
+                <div class="card-header">
+                    <h2 class="card-title">2. 출력 설정</h2>
+                </div>
+                <div class="card-content settings-content">
+
+                    <div class="input-group">
+                        <label for="print-size">인화지 크기</label>
+                        <select id="print-size" class="input-select">
+                            <option value="4x6">4 x 6 인치</option>
+                            <option value="3x5">3 x 5 인치</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="id-photo-size">증명사진 규격</label>
+                        <select id="id-photo-size" class="input-select">
+                            <option value="3.5x4.5">여권/반명함 (3.5cm x 4.5cm)</option>
+                            <option value="3x4">증명사진 (3cm x 4cm)</option>
+                        </select>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="btn-preview" class="btn btn-secondary ripple">
+                            <i class="material-icons">visibility</i>
+                            미리보기 갱신
+                        </button>
+                    </div>
+
+                    <hr class="divider">
+
+                    <h3 class="controls-title">인화 시트 미리보기</h3>
+                    <div class="preview-container">
+                        <!-- Canvas for composing the final print sheet -->
+                        <canvas id="output-canvas"></canvas>
+                    </div>
+
+                    <div class="action-buttons block-buttons">
+                        <button id="btn-download" class="btn btn-primary ripple btn-large" disabled>
+                            <i class="material-icons">download</i>
+                            출력용 파일 다운로드
+                        </button>
+                        <button id="btn-reset" class="btn btn-text ripple">
+                            <i class="material-icons">refresh</i>
+                            처음부터 다시하기
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
