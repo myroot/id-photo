@@ -5,9 +5,10 @@ const DPI = 300;
 const INCH = 25.4; // mm
 const sizes = {
     // Print Sheet Sizes (Inches converted to px at 300dpi)
+    // Using Landscape orientation for maximum packing density
     print: {
-        '4x6': { width: 4 * DPI, height: 6 * DPI }, // 1200 x 1800 px
-        '3x5': { width: 3 * DPI, height: 5 * DPI }  //  900 x 1500 px
+        '4x6': { width: 6 * DPI, height: 4 * DPI }, // 1800 x 1200 px
+        '3x5': { width: 5 * DPI, height: 3 * DPI }  // 1500 x 900 px
     },
     // ID Photo Sizes (cm converted to px at 300dpi)
     idPhoto: {
@@ -181,10 +182,11 @@ function updatePreviewCanvas() {
     if (!croppedCanvas) return;
 
     // Layout calculation
-    // Find how many fit in columns and rows
-    // Add some margin (e.g., 5mm, and 1mm gap)
-    const marginPx = Math.round((5 / 25.4) * DPI);
-    const gapPx = Math.round((1 / 25.4) * DPI); // 1mm gap
+    // To fit e.g. 4x2 layout of 3.5x4.5 on a 4x6 print:
+    // 4x6 width = 1800px. 4 cols of 413px = 1652px. Max gap/margin is small.
+    // Use minimal margins to tightly pack photos.
+    const marginPx = Math.round((2 / 25.4) * DPI); // 2mm margin ~ 24px
+    const gapPx = Math.round((2 / 25.4) * DPI); // 2mm gap ~ 24px
 
     const cols = Math.floor((printDim.width - marginPx * 2) / (idDim.width + gapPx));
     const rows = Math.floor((printDim.height - marginPx * 2) / (idDim.height + gapPx));
