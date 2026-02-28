@@ -174,9 +174,9 @@ function updatePreviewCanvas() {
 
     // Layout calculation
     // Find how many fit in columns and rows
-    // Add some margin (e.g., 2mm ~ 24px at 300dpi)
-    const marginPx = Math.round((2 / 2.54) * DPI);
-    const gapPx = Math.round((1 / 2.54) * DPI); // 1mm gap
+    // Add some margin (e.g., 5mm, and 1mm gap)
+    const marginPx = Math.round((5 / 25.4) * DPI);
+    const gapPx = Math.round((1 / 25.4) * DPI); // 1mm gap
 
     const cols = Math.floor((printDim.width - marginPx * 2) / (idDim.width + gapPx));
     const rows = Math.floor((printDim.height - marginPx * 2) / (idDim.height + gapPx));
@@ -208,6 +208,18 @@ function updatePreviewCanvas() {
 
 // --- Download & Reset ---
 
+function dataURLtoBlob(dataurl) {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+}
+
 function handleDownload() {
     const printKey = printSizeSelect.value;
     const idKey = idPhotoSizeSelect.value;
@@ -216,12 +228,20 @@ function handleDownload() {
     // Output as high quality JPEG
     const dataURL = outputCanvas.toDataURL('image/jpeg', 0.95);
 
+    // Use Blob URL for reliable downloading of large files
+    const blob = dataURLtoBlob(dataURL);
+    const blobUrl = URL.createObjectURL(blob);
+
     const link = document.createElement('a');
     link.download = filename;
-    link.href = dataURL;
+    link.href = blobUrl;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+    }, 100);
 }
 
 function resetApp() {
