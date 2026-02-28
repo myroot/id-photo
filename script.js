@@ -152,8 +152,8 @@ function startEditing() {
         viewMode: 1, // Restrict crop box to not exceed the size of the canvas
         dragMode: 'move',
         autoCropArea: 0.8,
-        restore: true, // Crucial for mobile: restores crop area when URL bar hides/shows on scroll
-        responsive: true,
+        restore: false,
+        responsive: false, // Completely disable window resize scaling to fix mobile URL bar scroll bugs
         guides: true,
         center: true,
         highlight: false,
