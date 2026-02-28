@@ -18,6 +18,14 @@ const sizes = {
         '3x4': {
             width: Math.round((3.0 / 2.54) * DPI), // ~354 px
             height: Math.round((4.0 / 2.54) * DPI) // ~472 px
+        },
+        '5x5': {
+            width: Math.round((5.0 / 2.54) * DPI), // ~591 px
+            height: Math.round((5.0 / 2.54) * DPI) // ~591 px
+        },
+        '5x7': {
+            width: Math.round((5.0 / 2.54) * DPI), // ~591 px
+            height: Math.round((7.0 / 2.54) * DPI) // ~827 px
         }
     }
 };
@@ -223,7 +231,11 @@ function dataURLtoBlob(dataurl) {
 function handleDownload() {
     const printKey = printSizeSelect.value;
     const idKey = idPhotoSizeSelect.value;
-    const filename = `id_photo_${idKey}_on_${printKey}.jpg`;
+
+    // Replace dots in the size keys so it doesn't mess up the extension, 
+    // and explicitly append .jpg
+    const safeIdKey = idKey.replace('.', '_');
+    const filename = `id_photo_${safeIdKey}_on_${printKey}.jpg`;
 
     // Output as high quality JPEG
     const dataURL = outputCanvas.toDataURL('image/jpeg', 0.95);
@@ -235,6 +247,8 @@ function handleDownload() {
     const link = document.createElement('a');
     link.download = filename;
     link.href = blobUrl;
+
+    // Some browsers need the link in the DOM to click it properly
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
