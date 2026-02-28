@@ -89,21 +89,28 @@ function handleImageUpload(e) {
         uploadBtn.innerHTML = '<i class="material-icons">hourglass_empty</i> 변환 중...';
         uploadBtn.style.pointerEvents = 'none';
 
-        heic2any({
-            blob: file,
-            toType: "image/jpeg",
-            quality: 0.95
-        }).then(function (resultBlob) {
-            // resultBlob can be an array if analyzing animation, usually it's single
-            const finalBlob = Array.isArray(resultBlob) ? resultBlob[0] : resultBlob;
-            readFile(finalBlob);
-        }).catch(function (e) {
-            alert("HEIC 변환 중 오류가 발생했습니다: " + e.message);
-            console.error(e);
-        }).finally(function () {
-            uploadBtn.innerHTML = uploadBtnOriginHTML;
-            uploadBtn.style.pointerEvents = 'auto';
-        });
+        // Some environments provide a File object without a proper MIME type
+        // Fetching it as a blob explicitly helps heic2any parse the magic bytes reliably.
+        fetch(URL.createObjectURL(file))
+            .then(function (res) { return res.blob(); })
+            .then(function (blob) {
+                return heic2any({
+                    blob: blob,
+                    toType: "image/jpeg",
+                    quality: 0.95
+                });
+            })
+            .then(function (resultBlob) {
+                // resultBlob can be an array if analyzing animation, usually it's single
+                const finalBlob = Array.isArray(resultBlob) ? resultBlob[0] : resultBlob;
+                readFile(finalBlob);
+            }).catch(function (e) {
+                alert("HEIC 변환 중 오류가 발생했습니다: " + e.message);
+                console.error(e);
+            }).finally(function () {
+                uploadBtn.innerHTML = uploadBtnOriginHTML;
+                uploadBtn.style.pointerEvents = 'auto';
+            });
     } else {
         readFile(file);
     }
